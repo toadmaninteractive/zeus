@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="zeusApp" ng-controller="IndexCtrl">
+    <head>
+        <base href="/" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+        <title>Toadman Zeus</title>
+    </head>
+    <body>
+        <div id="container" style="position: absolute; width: 400px; height: 8px; padding: 2px; border: 1px solid MediumAquamarine; display: block; border-radius: 1px;">
+            <div id="progress" style="width: 0; height: 100%; background-color: MediumAquamarine; display: block; border-radius: 1px;"></div>
+        </div>
+        <script id="preloader" type="text/javascript">
+            'use strict';
+            (function () {
+                var docHead = document.getElementsByTagName('head')[0];
+                var docBody = document.getElementsByTagName('body')[0];
+                var progressContainer = document.getElementById('container');
+                var progressIndicator = document.getElementById('progress');
+                var preloader = document.getElementById('preloader');
+
+                var fnUpdatePosition = function() {
+                    if (progressContainer) {
+                        var width = parseInt(progressContainer.style.width);
+                        progressContainer.style.left = Math.round((window.innerWidth - width) / 2) + 'px';
+                        progressContainer.style.top = '20px';
+                    }
+                };
+
+                fnUpdatePosition();
+                window.onresize = fnUpdatePosition;
+
+                progressIndicator.style.width = '0%';
+
+                var fnLoadFile = function(file) {
+                    var oReq = new XMLHttpRequest();
+                    var loader = { request: oReq };
+
+                    var fnProgress = function(oEvent) {
+                        loader.transferred = oEvent.lengthComputable ? oEvent.loaded : 0;
+                        loader.total = oEvent.lengthComputable ? oEvent.total : 1;
+                    };
+
+                    function fnComplete() {
+                        loader.transferred = loader.total;
+                        loader.ready = true;
+                    }
+
+                    oReq.addEventListener('progress', fnProgress, false);
+                    oReq.addEventListener('load', fnComplete, false);
+                    //oReq.addEventListener('error', transferFailed, false);
+                    //oReq.addEventListener('abort', transferCanceled, false);
+
+                    oReq.open('GET', '/' + file, true);
+                    oReq.send(null);
+
+                    return loader;
+                };
+
+                var loaderCSS = fnLoadFile('dist/zeus-bundle.min.css');
+                var loaderJS = fnLoadFile('dist/zeus-bundle.min.js');
+
+                var fnCheck = function() {
+                    if (!loaderCSS.transferred || !loaderCSS.total || !loaderJS.transferred || !loaderJS.total) {
+                        setTimeout(fnCheck, 100);
+                        return;
+                    }
+
+                    var progress = Math.min(100, Math.ceil((loaderCSS.transferred / loaderCSS.total + loaderJS.transferred / loaderJS.total)*50));
+                    progressIndicator.style.width = progress + '%';
+                    var ready = loaderCSS.ready === true && loaderJS.ready === true;
+
+                    if (!ready) {
+                        setTimeout(fnCheck, 100);
+                    } else {
+                        docBody.removeChild(progressContainer);
+                        docBody.removeChild(preloader);
+
+                        try {
+                            var elCss = document.createElement('style');
+                            elCss.type = 'text/css';
+                            elCss.innerHTML = loaderCSS.request.responseText;
+                            docHead.appendChild(elCss);
+                        } catch (e) {
+                            console.log('CSS inject failed', e);
+                        }
+
+                        try {
+                            var elJs = document.createElement('script');
+                            elJs.type = 'text/javascript';
+                            elJs.innerHTML = loaderJS.request.responseText;
+                            docHead.appendChild(elJs);
+                        } catch (e) {
+                            console.log('JS inject failed', e);
+                        }
+                    }
+                };
+
+                fnCheck();
+            })();
+        </script>
+
+        <div template="{{ templateIndex }}"></div>
+    </body>
+</html>

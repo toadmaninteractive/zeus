@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="zeusApp" ng-controller="IndexCtrl">
+    <head>
+        <base href="/" />
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+        <title>Toadman Zeus</title>
+
+        <!-- build:css dist/zeus-bundle.min.css -->
+        <link href="css/ie.css" rel="stylesheet" type="text/css" />
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+        <link href="css/font.css" rel="stylesheet" type="text/css" />
+        <link href="css/plugins.css" rel="stylesheet" type="text/css" />
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="css/fancybox.css" rel="stylesheet" type="text/css" />
+        <link href="css/ui_custom.css" rel="stylesheet" type="text/css" />
+        <link href="css/ng-table.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/xeditable.css" rel="stylesheet" type="text/css" />
+        <link href="css/select.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/treeGrid.css" rel="stylesheet" type="text/css" />
+        <link href="css/zeus.css" rel="stylesheet" type="text/css" />
+        <!-- endbuild -->
+
+        <!-- build:js dist/zeus-bundle.min.js -->
+        <!-- Standalone libraries -->
+        <script type="text/javascript" src="js/vendor/standalone/excanvas.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/underscore-min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/jquery.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/jquery-migrate.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/moment.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/chart.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/select2.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/jsonpatch.min.js"></script>
+
+        <!-- Standalone plugins -->
+        <script type="text/javascript" src="js/vendor/standalone/plugins/jquery.uniform.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/plugins/jquery.jgrowl.min.js"></script>
+        <script type="text/javascript" src="js/vendor/standalone/plugins/jquery.dataTables.min.js"></script>
+
+        <!-- AngularJS -->
+        <script type="text/javascript" src="js/vendor/angular/angular.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/angular-animate.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/angular-cookies.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/angular-route.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/angular-sanitize.min.js"></script>
+
+        <!-- AngularJS plugins -->
+        <script type="text/javascript" src="js/vendor/angular/plugins/angular-local-storage.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/ng-context-menu.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/ng-table.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/position.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/select.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/timepicker.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/timepicker-tpl.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/ui-bootstrap.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/ui-chart.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/xeditable.min.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/tree-grid-directive.js"></script>
+        <script type="text/javascript" src="js/vendor/angular/plugins/angular-websocket.min.js"></script>
+
+        <!-- Project: application -->
+        <script type="text/javascript" src="js/project/zeusApp.js"></script>
+
+        <!-- Project: constants -->
+        <script type="text/javascript" src="js/project/constants/Breadcrumbs.js"></script>
+        <script type="text/javascript" src="js/project/constants/NgTables.js"></script>
+        <script type="text/javascript" src="js/project/constants/Menu.js"></script>
+        <script type="text/javascript" src="js/project/constants/RenderSchema.js"></script>
+        <script type="text/javascript" src="js/project/constants/RoutingSchema.js"></script>
+
+        <!-- Project: services -->
+        <script type="text/javascript" src="js/project/services/api.js"></script>
+        <script type="text/javascript" src="js/project/services/dialogs.js"></script>
+        <script type="text/javascript" src="js/project/services/growl.js"></script>
+        <script type="text/javascript" src="js/project/services/instance.js"></script>
+        <script type="text/javascript" src="js/project/services/reactive.js"></script>
+        <script type="text/javascript" src="js/project/services/recent.js"></script>
+        <script type="text/javascript" src="js/project/services/storage.js"></script>
+        <script type="text/javascript" src="js/project/services/utils.js"></script>
+
+        <!-- Project: filters -->
+        <script type="text/javascript" src="js/project/filters/capitalize.js"></script>
+        <script type="text/javascript" src="js/project/filters/conv.js"></script>
+        <script type="text/javascript" src="js/project/filters/cssColor.js"></script>
+
+        <!-- Project: controllers -->
+        <script type="text/javascript" src="js/project/controllers/BreadcrumbsCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/IndexCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/InstanceLinkCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/InstanceRolesViewCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/InstancesViewCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/LoginCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/MenuCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/RealmRolesViewCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/RecentPagesCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/SearchCtrl.js"></script>
+        <script type="text/javascript" src="js/project/controllers/UsersViewCtrl.js"></script>
+
+        <!-- Project: common directives -->
+        <script type="text/javascript" src="js/project/directives/color.js"></script>
+        <script type="text/javascript" src="js/project/directives/fadeOn.js"></script>
+        <script type="text/javascript" src="js/project/directives/focusOn.js"></script>
+        <script type="text/javascript" src="js/project/directives/preventBubble.js"></script>
+        <script type="text/javascript" src="js/project/directives/preventClick.js"></script>
+        <script type="text/javascript" src="js/project/directives/select2.js"></script>
+        <script type="text/javascript" src="js/project/directives/template.js"></script>
+        <script type="text/javascript" src="js/project/directives/uniform.js"></script>
+
+        <!-- Project: zeus reactive directives -->
+        <script type="text/javascript" src="js/project/directives/reactive/reactiveLayout.js"></script>
+        <script type="text/javascript" src="js/project/directives/reactive/reactiveLoadIndicator.js"></script>
+        <script type="text/javascript" src="js/project/directives/reactive/reactivePage.js"></script>
+        <script type="text/javascript" src="js/project/directives/reactive/reactiveValidate.js"></script>
+
+        <!-- Project: zeus reactive decorators -->
+        <script type="text/javascript" src="js/project/decorators/Block.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Button.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Chart.js"></script>
+        <script type="text/javascript" src="js/project/decorators/CheckBox.js"></script>
+        <script type="text/javascript" src="js/project/decorators/ComboBox.js"></script>
+        <script type="text/javascript" src="js/project/decorators/DateTimePicker.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Horizontal.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Html.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Image.js"></script>
+        <script type="text/javascript" src="js/project/decorators/ImageButton.js"></script>
+        <script type="text/javascript" src="js/project/decorators/InplaceTextEdit.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Label.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Link.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Listing.js"></script>
+        <script type="text/javascript" src="js/project/decorators/PropertyGrid.js"></script>
+        <script type="text/javascript" src="js/project/decorators/RadioGroup.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Separator.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Table.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Tabs.js"></script>
+        <script type="text/javascript" src="js/project/decorators/TextEdit.js"></script>
+        <script type="text/javascript" src="js/project/decorators/TimeInterval.js"></script>
+        <script type="text/javascript" src="js/project/decorators/Vertical.js"></script>
+        <!-- endbuild -->
+    </head>
+    <body>
+        <div template="{{ templateIndex }}"></div>
+    </body>
+</html>

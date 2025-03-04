@@ -1,0 +1,51 @@
+using ZeusSharedProtocol;
+
+[erlang hrl_file="zeus_server" file="protocol/zeus_server_protocol"]
+[* json.enabled]
+module ZeusServerProtocol
+{
+    [erlang allow_match_spec]
+    record ZeusInstance
+    {
+        string id;
+        string key;
+        string title;
+        string api_root;
+        string api_key;
+    }
+
+    [erlang allow_match_spec]
+    record ZeusUser
+    {
+        string id;
+        string login;
+        atom realm;
+        list<atom> admin_roles = [];
+    }
+
+    [erlang allow_match_spec]
+    record ZeusRole
+    {
+        string id;
+        string login;
+        atom realm;
+        ?string instance_id;
+        list<atom> roles;
+    }
+
+    [erlang allow_match_spec]
+    record ZeusRealm
+    {
+        string id;
+        atom name;
+        ?string instance_id;
+        list<atom> roles = [];
+    }
+
+    record ReplyStatus
+    {
+        bool result = true;
+        ?string error;
+        ?list<string> invalid_fields;
+    }
+}

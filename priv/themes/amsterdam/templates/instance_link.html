@@ -1,0 +1,11 @@
+<div ng-controller="InstanceLinkCtrl">
+    <!-- Zeus rendered page -->
+    <!-- <div zeus-page="pageInfo" data-context="linkedContext" ng-show="isPageVisible('instance')"></div> -->
+    <div reactive-page data-context="linkedContext" ng-show="isPageVisible('instance')"></div>
+
+    <!-- Zeus instance administration -->
+    <div template="instance_administration.html" ng-show="isPageVisible('admin')"></div>
+
+    <!-- Zeus instance action logs -->
+    <div template="instance_logs.html" ng-show="isPageVisible('logs')"></div>
+</div>

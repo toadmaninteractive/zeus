@@ -1,0 +1,13 @@
+<ul class="breadcrumb inline pull-left" ng-controller="BreadcrumbsCtrl">
+    <li><a href="/admin/dashboard"><i class="font-home"></i></a><span class="divider">&rsaquo;</span></li>
+    <li ng-repeat="breadcrumb in breadcrumbs" ng-class="{ active: $last }" ng-switch="$last">
+        <a class="clickable" ng-switch-when="false" ng-href="{{ breadcrumb.url }}">{{ breadcrumb.title }}</a>
+        <span ng-switch-when="false" class="divider">&rsaquo;</span>
+        <span ng-switch-when="true" class="last">{{ breadcrumb.title }}</span>
+    </li>
+</ul>
+
+<ul class="icons inline pull-right">
+    <li ng-click="utils.broadcast('page:debug')"><a href="" tooltip="Debug page"><i class="font-cog"></i></a></li>
+    <li ng-click="utils.broadcast('data:reload')"><a href="" tooltip="Reload data"><i class="font-refresh"></i></a></li>
+</ul>

@@ -1,0 +1,20 @@
+<ul class="user-list block" ng-controller="RecentPagesCtrl">
+    <li ng-repeat="page in recent.getPages(10)">
+        <a ng-href="{{ combineUrl(page.url, page.search) }}" ng-click="recent.navigate(page.instance_key, combineUrl(page.route, page.search))"  prevent-click title="">
+            <img ng-src="{{ getIconUrl(page) }}" class="project-logo" />
+
+            <span class="contact-name" style="width: 140px !important;">
+                <strong>{{ page.pageInfo.title }}</strong>
+                <i>{{ page.instance.serverInfo.title }}</i>
+            </span>
+            <!--
+            <span class="status_available"></span>
+            -->
+        </a>
+    </li>
+    <li ng-if="recent.getPages(1).length <= 0" class="active">
+        <span>
+            <i>No pages visited</i>
+        </span>
+    </li>
+</ul>

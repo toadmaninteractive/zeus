@@ -1,0 +1,421 @@
+[erlang hrl_file="zeus_shared" file="protocol/zeus_shared_protocol"]
+[* json.enabled]
+[* xml.enabled xml.notation=upper_camel]
+module ZeusSharedProtocol
+{
+    define Role atom;
+
+    enum PrivilegeType
+    {
+        manage_users;
+    }
+
+    variant Privilege
+    {
+        tag PrivilegeType type;
+    }
+
+    record Privilege.PrivilegeManageUsers[manage_users]
+    {
+        list<Role> roles;
+    }
+
+    record RoleInfo
+    {
+        Role role;
+        string title;
+        string description;
+        list<Privilege> privileges;
+    }
+
+    // %api_root%/zeus/instance
+    record Instance
+    {
+        string key;
+        string title;
+        string icon;
+        list<RoleInfo> roles;
+    }
+
+    // %api_root%/zeus/menu
+    record Menu
+    {
+        list<MenuItem> items = [];
+    }
+
+    record MenuItem
+    {
+        string route;
+        list<MenuItem> items = [];
+    }
+
+    // %api_root%/zeus/page
+    record Page
+    {
+        string title;
+        ?string icon;
+        string layout_url;
+        ?string data_url;
+        bool is_websocket = false;
+        ?Json data;
+    }
+
+    record SearchResult
+    {
+        string route;
+    }
+
+    [* xml.notation=upper]
+    enum Method
+    {
+        get;
+        put;
+        post;
+        patch;
+        delete;
+    }
+
+    [erlang alias="zeus:binding"]
+    [erlang json.parser="zeus_igor_custom:binding_from_json" json.packer="zeus_igor_custom:binding_to_json"]
+    [erlang xml.parser="zeus_igor_custom:binding_from_xml" xml.packer="zeus_igor_custom:binding_to_xml"]
+    [xsd xs_type="string"]
+    record DataBinding
+    {
+    }
+
+    [erlang alias="zeus:json_binding"]
+    [erlang json.parser="zeus_igor_custom:json_binding_from_json" json.packer="zeus_igor_custom:json_binding_to_json"]
+    [erlang xml.parser="zeus_igor_custom:json_binding_from_xml" xml.packer="zeus_igor_custom:json_binding_to_xml"]
+    record JsonBinding
+    {
+    }
+
+    [erlang alias="json:json"]
+    [erlang json.parser="zeus_igor_custom:identity" json.packer="zeus_igor_custom:identity" xml.parser="zeus_igor_custom:json_from_xml" xml.packer="zeus_igor_custom:json_to_xml"]
+    record Json
+    {
+    }
+
+    enum ActionType
+    {
+        request;
+        navigate;
+        reload;
+        popup;
+        assign;
+    }
+
+    enum SourceType
+    {
+        global;
+        local;
+        instance;
+    }
+
+    enum TextEditKind
+    {
+        text;
+        number;
+        integer;
+        float;
+    }
+    
+    enum DateTimeMode
+    {
+        date;
+        time;
+        datetime;
+    }
+    
+    enum TimeSpan
+    {
+        seconds;
+        milliseconds;
+    }
+
+    enum ChartType
+    {
+        bar;
+        line;
+        point;
+    }
+
+    variant Action
+    {
+        tag ActionType type;
+        ?DataBinding enabled;
+    }
+
+    record Action.Request[request]
+    {
+        Method method = get;
+        string data_url;
+        dict<string, DataBinding> args = [];
+        ?JsonBinding body;
+        ?DataBinding result;
+        ?Action on_complete;
+    }
+
+    record Action.Navigate[navigate]
+    {
+        string route;
+    }
+
+    record Action.Reload[reload]
+    {
+    }
+
+    record Action.Popup[popup]
+    {
+        ?string layout_url;
+        [* xml.content]
+        ?Element content_template;
+        ?string data_url;
+        ?DataBinding content;
+        bool is_context = true;
+        ?int width;
+    }
+
+    record Action.Assign[assign]
+    {
+        DataBinding path;
+        DataBinding value;
+    }
+
+    // %api_root%/zeus/layout
+    record ElementLayout
+    {
+        [* xml.content]
+        ?Element element;
+    }
+
+    variant Element
+    {
+        tag ElementType type;
+        ?DataBinding visible;
+        ?Action on_load;
+        ?Popup on_hover;
+    }
+
+    enum ElementType
+    {
+        horizontal;
+        vertical;
+        listing;
+        label;
+        block;
+        table;
+        textedit;
+        button;
+        link;
+        layout;
+        datetimepicker;
+        timeinterval;
+        image;
+        chart;
+        imagebutton;
+        checkbox;
+        combobox;
+        inplace_textedit;
+        separator;
+        html;
+        tabs;
+        radiogroup;
+        property_grid;
+    }
+
+    record Element.Horizontal[horizontal]
+    {
+        [* xml.content]
+        list<Element> items;
+    }
+
+    record Element.Vertical[vertical]
+    {
+        [* xml.content]
+        list<Element> items;
+    }
+
+    record Element.Listing[listing]
+    {
+        [* xml.content]
+        Element item_template;
+        DataBinding items;
+        bool show_separator = false;
+    }
+
+    record Element.Label[label]
+    {
+        DataBinding text;
+        ?DataBinding color;
+    }
+
+    record Element.Block[block]
+    {
+        ?Element caption_template;
+        [* xml.content]
+        Element content_template;
+        ?DataBinding caption;
+        ?DataBinding content;
+    }
+
+    record TableColumn
+    {
+        ?Element caption_template;
+        [* xml.content]
+        ?Element content_template;
+        DataBinding caption;
+        ?DataBinding content;
+        ?DataBinding align;
+        ?DataBinding sort_by;
+        ?DataBinding sort_dir;
+    }
+
+    record Element.Table[table]
+    {
+        [* xml.content]
+        list<TableColumn> columns = [];
+        ?DataBinding rows;
+        ?string url;
+        bool pagination = true;
+        bool compact = false;
+    }
+
+    record Element.TextEdit[textedit]
+    {
+        ?string placeholder;
+        DataBinding text;
+        TextEditKind kind = text;
+        bool multiline = false;
+    }
+
+    record Element.Button[button]
+    {
+        DataBinding text;
+        [* xml.content]
+        Action on_click;
+    }
+
+    record Element.Link[link]
+    {
+        DataBinding text;
+        [* xml.content]
+        Action on_click;
+    }
+
+    record Element.Layout[layout]
+    {
+        string layout_url;
+        DataBinding content;
+    }
+
+    record Element.DateTimePicker[datetimepicker]
+    {
+        DataBinding date_time;
+        DateTimeMode mode = datetime;
+    }
+    
+    record Element.TimeInterval[timeinterval]
+    {
+        DataBinding interval;
+        TimeSpan mode = milliseconds;
+    }
+    
+    record Element.Image[image]
+    {
+        DataBinding source;
+        [* xml.content]
+        ?Action on_click;
+        SourceType source_type = instance;
+        bool scale = false;
+    }
+
+    record Element.Chart[chart]
+    {
+        ?DataBinding caption;
+        DataBinding source;
+        ChartType chart_type = bar;
+        list<DataBinding> series;
+        bool flat = false;
+    }
+
+    record Element.ImageButton[imagebutton]
+    {
+        DataBinding icon;
+        ?DataBinding tooltip;
+        [* xml.content]
+        Action on_click;
+    }
+
+    record Element.Checkbox[checkbox]
+    {
+        DataBinding checked;
+        DataBinding text;
+        ?DataBinding color;
+        [* xml.content]
+        Action on_change;
+    }
+
+    record Element.Combobox[combobox]
+    {
+        DataBinding items;
+        DataBinding caption;
+        DataBinding selected;
+        [* xml.content]
+        Action on_change;
+    }
+
+    record Element.InplaceTextEdit[inplace_textedit]
+    {
+        DataBinding text;
+        [* xml.content]
+        Action on_change;
+    }
+
+    record Element.Separator[separator]
+    {
+    }
+
+    record Element.Html[html]
+    {
+        [* xml.content]
+        DataBinding content;
+    }
+
+    record TabItem
+    {
+        string title;
+        string icon = "icon-info-sign";
+        string layout_url;
+        ?string data_url;
+        bool is_websocket = false;
+    }
+
+    record Element.Tabs[tabs]
+    {
+        [* xml.content]
+        list<TabItem> items = [];
+    }
+
+    record RadioItem
+    {
+        [* xml.content]
+        ?Element template;
+        DataBinding caption;
+        DataBinding value;
+    }
+
+    record Element.Radiogroup[radiogroup]
+    {
+        [* xml.content]
+        list<RadioItem> items = [];
+        bool vertical_order = true;
+        DataBinding value;
+    }
+    
+    record Element.PropertyGrid[property_grid]
+    {
+        bool collapsed = false;
+        DataBinding value;
+    }
+}

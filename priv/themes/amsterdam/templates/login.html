@@ -1,0 +1,50 @@
+<div class="login-wrapper" ng-controller="LoginCtrl">
+    <div class="login">
+        <a href="javascript:" title="" class="login-logo"><img ng-src="images/logo/login-logo.png" alt="" /></a>
+
+        <div class="well">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <h6><i class="font-user"></i>Login</h6>
+                </div>
+            </div>
+
+            <form action="javascript:" name="login-form" class="row-fluid" ng-submit="login()">
+                <div class="control-group">
+                    <label class="control-label">Username</label>
+                    <div class="controls">
+                        <input class="span12" type="text" name="username" placeholder="username" focus-on="resetForm" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Password:</label>
+                    <div class="controls">
+                        <input class="span12" type="password" name="password" placeholder="password" />
+                    </div>
+                </div>
+
+                <div class="control-group" ng-if="authRealms.length > 1">
+                    <label class="control-label">Realm:</label>
+                    <div class="controls">
+                        <select class="clickable" ng-model="$parent.selectedRealm" ng-options="item.title for item in authRealms" style="width: 100%;"></select>
+                        <!--
+                        <ui-select ng-model="$parent.selectedRealm" theme="select2" search-enabled="false" class="clickable" style="width: 100%;">
+                            <ui-select-match placeholder="Select authentication realm">
+                                {{ $select.selected.title }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in $parent.authRealms">
+                                <div ng-bind="item.title"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        -->
+                    </div>
+                </div>
+
+                <div class="login-btn">
+                    <input type="submit" value="Login" class="btn btn-info btn-block btn-large" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

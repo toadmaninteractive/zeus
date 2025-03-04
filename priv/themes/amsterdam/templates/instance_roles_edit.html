@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h5>Edit instance roles</h5>
+</div>
+<div class="modal-body container">
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="row-fluid">
+                <div class="control-group">
+                    <label class="control-label">Realm:</label>
+                    <div class="controls">
+                        <select class="clickable" ng-model="data.selectedRealm" ng-options="realm.title for realm in realms" ng-disabled="!isNew" style="width: 100%;"></select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Login:</label>
+                    <div class="controls">
+                        <input class="span12" type="text" name="login" ng-model="userRole.login" ng-disabled="!isNew" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Instance roles:</label>
+                    <div class="controls">
+                        <label class="role" ng-repeat="role in agentRoles">
+                            <input type="checkbox" ng-model="roleFlags[role.role]" uniform />
+                            <span class="clickable">{{ role.title }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">Save</button>
+    <button class="btn" ng-click="cancel()">Cancel</button>
+</div>

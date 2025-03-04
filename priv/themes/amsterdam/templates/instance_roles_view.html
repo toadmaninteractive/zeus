@@ -1,0 +1,30 @@
+<div ng-controller="InstanceRolesViewCtrl">
+    <div class="block well no-margin">
+        <ul class="toolbar">
+            <li>
+                <a href="javascript:" ng-click="addInstanceRoles()">
+                    <i class="font-plus"></i>
+                    <span>Add instance roles...</span>
+                </a>
+            </li>
+        </ul>
+        <div class="table-overflow table-responsive">
+            <table ng-table="tableParams" class="table ng-table-responsive table-striped table-hover table-bordered table-block">
+                <tr ng-repeat="userRole in $data">
+                    <td class="align-left" data-title="'Username'" sortable="'key'" style="width: 200px;">
+                        {{ userRole.login }}
+                    </td>
+                    <td class="align-left" data-title="'Realm'" sortable="'key'">
+                        {{ realmMap[userRole.realm].title }}
+                    </td>
+                    <td class="align-center" data-title="'Actions'" style="width: 60px;">
+                        <ul class="table-controls dimmed">
+                            <li><a href="javascript:" class="btn" tooltip="Modify" ng-click="updateInstanceRoles(userRole)"><i class="icon-edit"></i></a></li>
+                            <li><a href="javascript:" class="btn" tooltip="Remove" ng-click="removeInstanceRoles(userRole)"><i class="icon-remove"></i></a></li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

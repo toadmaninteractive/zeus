@@ -1,0 +1,51 @@
+<ul class="navigation standard" ng-controller="MenuCtrl">
+    <li ng-repeat="item in Menu" ng-class="{ active: isMenuActive(item) }" ng-if="hasAccessToMenu(item)">
+        <a ng-href="{{ item.url }}" title="">
+            <img ng-src="images/icons/mainnav/{{ item.icon }}" alt="" />
+            {{ item.title }}
+        </a>
+        <ul ng-if="item.items.length > 0" ng-hide="!isMenuActive(item)" class="animate-menu">
+            <li ng-repeat="subitem in item.items" ng-class="{ current: isMenuActive(subitem) }" ng-if="hasAccessToMenu(subitem)">
+                <a ng-href="{{ subitem.url }}" title="">{{ subitem.title }}</a>
+            </li>
+        </ul>
+    </li>
+
+    <li ng-repeat="item in instance.items.list" ng-class="{ active: item.serverInfo.id === instance.active.id }" ng-if="hasAccessToInstance(item)">
+        <a ng-href="/{{ item.serverInfo.key }}" ng-click="recent.navigate(item.serverInfo.key, '/')" prevent-click title="">
+            <img ng-src="images/icons/mainnav/tables.png" alt="" />
+            {{ item.serverInfo.title }}
+        </a>
+        <ul ng-hide="item.serverInfo.id !== instance.active.id" class="animate-menu">
+            <li ng-repeat="subitemL1 in item.menu.items" class="animate-menu" ng-class="{ current: subitemL1.itemInfo.route === instance.active.route }">
+                <a ng-href="/{{ item.serverInfo.key }}{{ subitemL1.itemInfo.route }}" ng-click="recent.navigate(item.serverInfo.key, subitemL1.itemInfo.route)" prevent-click title="">
+                    {{ subitemL1.pageInfo.title || '...' }}
+                </a>
+                <ul class="animate-menu deep" ng-if="hasActiveChildren(subitemL1)">
+                    <li ng-repeat="subitemL2 in subitemL1.items" class="animate-menu deep level2" ng-class="{ current: subitemL2.itemInfo.route === instance.active.route }">
+                        <a ng-href="/{{ item.serverInfo.key }}{{ subitemL2.itemInfo.route }}" ng-click="recent.navigate(item.serverInfo.key, subitemL2.itemInfo.route)" prevent-click title="">
+                            {{ subitemL2.pageInfo.title || '...' }}
+                        </a>
+                        <ul class="animate-menu deep" ng-if="hasActiveChildren(subitemL2)">
+                            <li ng-repeat="subitemL3 in subitemL2.items" class="animate-menu deep level3" ng-class="{ current: subitemL3.itemInfo.route === instance.active.route }">
+                                <a ng-href="/{{ item.serverInfo.key }}{{ subitemL3.itemInfo.route }}" ng-click="recent.navigate(item.serverInfo.key, subitemL3.itemInfo.route)" prevent-click title="">
+                                    {{ subitemL3.pageInfo.title || '...' }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="animate-menu" ng-class="{ current: $location.path() === '/' + instance.active.key + '/_admin' }" ng-if="hasAccessToAdmin(instance.active.id)">
+                <a ng-href="/{{ item.serverInfo.key }}/_admin" ng-click="recent.navigate(item.serverInfo.key, '/_admin')" prevent-click title="">
+                    Administration
+                </a>
+            </li>
+            <li class="animate-menu" ng-class="{ current: $location.path() === '/' + instance.active.key + '/_logs' }" ng-if="hasAccessToLogs(instance.active.id)">
+                <a ng-href="/{{ item.serverInfo.key }}/_logs" ng-click="recent.navigate(item.serverInfo.key, '/_logs')" prevent-click title="">
+                    Action Logs
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>

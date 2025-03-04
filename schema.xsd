@@ -1,0 +1,622 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:simpleType name="PrivilegeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ManageUsers" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:group name="Privilege">
+        <xs:choice>
+            <xs:element minOccurs="0" maxOccurs="1" name="PrivilegeManageUsers" type="PrivilegeManageUsers" />
+        </xs:choice>
+    </xs:group>
+    <xs:complexType name="Privilege">
+        <xs:group ref="Privilege" />
+    </xs:complexType>
+    <xs:complexType name="PrivilegeManageUsers">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="PrivilegeManageUsers.Roles" type="xs:string" />
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="PrivilegeManageUsers" type="PrivilegeManageUsers" />
+    <xs:complexType name="RoleInfo">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="RoleInfo.Role" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RoleInfo.Title" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RoleInfo.Description" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RoleInfo.Privileges" type="Privilege" />
+        </xs:choice>
+        <xs:attribute name="Role" type="xs:string" />
+        <xs:attribute name="Title" type="xs:string" />
+        <xs:attribute name="Description" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="RoleInfo" type="RoleInfo" />
+    <xs:complexType name="Instance">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Instance.Key" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Instance.Title" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Instance.Icon" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Instance.Roles" type="RoleInfo" />
+        </xs:choice>
+        <xs:attribute name="Key" type="xs:string" />
+        <xs:attribute name="Title" type="xs:string" />
+        <xs:attribute name="Icon" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Instance" type="Instance" />
+    <xs:complexType name="Menu">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Menu.Items" type="MenuItem" />
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="Menu" type="Menu" />
+    <xs:complexType name="MenuItem">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="MenuItem.Route" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="MenuItem.Items" type="MenuItem" />
+        </xs:choice>
+        <xs:attribute name="Route" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="MenuItem" type="MenuItem" />
+    <xs:complexType name="Page">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Page.Title" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Page.Icon" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Page.LayoutUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Page.DataUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Page.IsWebsocket" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Page.Data" type="Json" />
+        </xs:choice>
+        <xs:attribute name="Title" type="xs:string" />
+        <xs:attribute name="Icon" type="xs:string" />
+        <xs:attribute name="LayoutUrl" type="xs:string" />
+        <xs:attribute name="DataUrl" type="xs:string" />
+        <xs:attribute name="IsWebsocket" type="xs:boolean" />
+    </xs:complexType>
+    <xs:element name="Page" type="Page" />
+    <xs:simpleType name="METHOD">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GET" />
+            <xs:enumeration value="PUT" />
+            <xs:enumeration value="POST" />
+            <xs:enumeration value="PATCH" />
+            <xs:enumeration value="DELETE" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="JsonBinding">
+        <xs:choice minOccurs="0" maxOccurs="unbounded" />
+    </xs:complexType>
+    <xs:element name="JsonBinding" type="JsonBinding" />
+    <xs:complexType name="Json">
+        <xs:choice minOccurs="0" maxOccurs="unbounded" />
+    </xs:complexType>
+    <xs:element name="Json" type="Json" />
+    <xs:simpleType name="ActionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Request" />
+            <xs:enumeration value="Navigate" />
+            <xs:enumeration value="Reload" />
+            <xs:enumeration value="Popup" />
+            <xs:enumeration value="Assign" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SourceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Global" />
+            <xs:enumeration value="Local" />
+            <xs:enumeration value="Instance" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TextEditKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Text" />
+            <xs:enumeration value="Number" />
+            <xs:enumeration value="Integer" />
+            <xs:enumeration value="Float" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DateTimeMode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Date" />
+            <xs:enumeration value="Time" />
+            <xs:enumeration value="Datetime" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TimeSpan">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Seconds" />
+            <xs:enumeration value="Milliseconds" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ChartType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Bar" />
+            <xs:enumeration value="Line" />
+            <xs:enumeration value="Point" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:group name="Action">
+        <xs:choice>
+            <xs:element minOccurs="0" maxOccurs="1" name="Request" type="Request" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Navigate" type="Navigate" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Reload" type="Reload" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Popup" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Assign" type="Assign" />
+        </xs:choice>
+    </xs:group>
+    <xs:complexType name="Action">
+        <xs:group ref="Action" />
+    </xs:complexType>
+    <xs:complexType name="Request">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Request.Enabled" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Request.Method" type="METHOD" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Request.DataUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Request.Args" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Request.Body" type="JsonBinding" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Request.Result" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Request.OnComplete" type="Action" />
+        </xs:choice>
+        <xs:attribute name="Enabled" type="xs:string" />
+        <xs:attribute name="Method" type="METHOD" />
+        <xs:attribute name="DataUrl" type="xs:string" />
+        <xs:attribute name="Result" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Request" type="Request" />
+    <xs:complexType name="Navigate">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Navigate.Enabled" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Navigate.Route" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Enabled" type="xs:string" />
+        <xs:attribute name="Route" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Navigate" type="Navigate" />
+    <xs:complexType name="Reload">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Reload.Enabled" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Enabled" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Reload" type="Reload" />
+    <xs:complexType name="Popup">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Popup.Enabled" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Popup.LayoutUrl" type="xs:string" />
+            <xs:group minOccurs="0" maxOccurs="1" ref="Element" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Popup.DataUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Popup.Content" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Popup.IsContext" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Popup.Width" type="xs:integer" />
+        </xs:choice>
+        <xs:attribute name="Enabled" type="xs:string" />
+        <xs:attribute name="LayoutUrl" type="xs:string" />
+        <xs:attribute name="DataUrl" type="xs:string" />
+        <xs:attribute name="Content" type="xs:string" />
+        <xs:attribute name="IsContext" type="xs:boolean" />
+        <xs:attribute name="Width" type="xs:integer" />
+    </xs:complexType>
+    <xs:element name="Popup" type="Popup" />
+    <xs:complexType name="Assign">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Assign.Enabled" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Assign.Path" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Assign.Value" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Enabled" type="xs:string" />
+        <xs:attribute name="Path" type="xs:string" />
+        <xs:attribute name="Value" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Assign" type="Assign" />
+    <xs:complexType name="ElementLayout">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:group minOccurs="0" maxOccurs="1" ref="Element" />
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="ElementLayout" type="ElementLayout" />
+    <xs:group name="Element">
+        <xs:choice>
+            <xs:element minOccurs="0" maxOccurs="1" name="Horizontal" type="Horizontal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Vertical" type="Vertical" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Listing" type="Listing" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Label" type="Label" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Block" type="Block" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Table" type="Table" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit" type="TextEdit" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Button" type="Button" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Link" type="Link" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Layout" type="Layout" />
+            <xs:element minOccurs="0" maxOccurs="1" name="DateTimePicker" type="DateTimePicker" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TimeInterval" type="TimeInterval" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Image" type="Image" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart" type="Chart" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ImageButton" type="ImageButton" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Checkbox" type="Checkbox" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Combobox" type="Combobox" />
+            <xs:element minOccurs="0" maxOccurs="1" name="InplaceTextEdit" type="InplaceTextEdit" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Separator" type="Separator" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Html" type="Html" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Tabs" type="Tabs" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Radiogroup" type="Radiogroup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PropertyGrid" type="PropertyGrid" />
+        </xs:choice>
+    </xs:group>
+    <xs:complexType name="Element">
+        <xs:group ref="Element" />
+    </xs:complexType>
+    <xs:simpleType name="ElementType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Horizontal" />
+            <xs:enumeration value="Vertical" />
+            <xs:enumeration value="Listing" />
+            <xs:enumeration value="Label" />
+            <xs:enumeration value="Block" />
+            <xs:enumeration value="Table" />
+            <xs:enumeration value="Textedit" />
+            <xs:enumeration value="Button" />
+            <xs:enumeration value="Link" />
+            <xs:enumeration value="Layout" />
+            <xs:enumeration value="Datetimepicker" />
+            <xs:enumeration value="Timeinterval" />
+            <xs:enumeration value="Image" />
+            <xs:enumeration value="Chart" />
+            <xs:enumeration value="Imagebutton" />
+            <xs:enumeration value="Checkbox" />
+            <xs:enumeration value="Combobox" />
+            <xs:enumeration value="InplaceTextedit" />
+            <xs:enumeration value="Separator" />
+            <xs:enumeration value="Html" />
+            <xs:enumeration value="Tabs" />
+            <xs:enumeration value="Radiogroup" />
+            <xs:enumeration value="PropertyGrid" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Horizontal">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Horizontal.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Horizontal.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Horizontal.OnHover" type="Popup" />
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="Element" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Horizontal" type="Horizontal" />
+    <xs:complexType name="Vertical">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Vertical.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Vertical.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Vertical.OnHover" type="Popup" />
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="Element" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Vertical" type="Vertical" />
+    <xs:complexType name="Listing">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Listing.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Listing.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Listing.OnHover" type="Popup" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Element" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Listing.Items" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Listing.ShowSeparator" type="xs:boolean" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Items" type="xs:string" />
+        <xs:attribute name="ShowSeparator" type="xs:boolean" />
+    </xs:complexType>
+    <xs:element name="Listing" type="Listing" />
+    <xs:complexType name="Label">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Label.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Label.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Label.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Label.Text" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Label.Color" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Text" type="xs:string" />
+        <xs:attribute name="Color" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Label" type="Label" />
+    <xs:complexType name="Block">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Block.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Block.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Block.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Block.CaptionTemplate" type="Element" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Element" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Block.Caption" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Block.Content" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Caption" type="xs:string" />
+        <xs:attribute name="Content" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Block" type="Block" />
+    <xs:complexType name="TableColumn">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="TableColumn.CaptionTemplate" type="Element" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Element" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TableColumn.Caption" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TableColumn.Content" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TableColumn.Align" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TableColumn.SortBy" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TableColumn.SortDir" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Caption" type="xs:string" />
+        <xs:attribute name="Content" type="xs:string" />
+        <xs:attribute name="Align" type="xs:string" />
+        <xs:attribute name="SortBy" type="xs:string" />
+        <xs:attribute name="SortDir" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="TableColumn" type="TableColumn" />
+    <xs:complexType name="Table">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Table.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Table.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Table.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="TableColumn" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Table.Rows" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Table.Url" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Table.Pagination" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Table.Compact" type="xs:boolean" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Rows" type="xs:string" />
+        <xs:attribute name="Url" type="xs:string" />
+        <xs:attribute name="Pagination" type="xs:boolean" />
+        <xs:attribute name="Compact" type="xs:boolean" />
+    </xs:complexType>
+    <xs:element name="Table" type="Table" />
+    <xs:complexType name="TextEdit">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit.Placeholder" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit.Text" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit.Kind" type="TextEditKind" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TextEdit.Multiline" type="xs:boolean" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Placeholder" type="xs:string" />
+        <xs:attribute name="Text" type="xs:string" />
+        <xs:attribute name="Kind" type="TextEditKind" />
+        <xs:attribute name="Multiline" type="xs:boolean" />
+    </xs:complexType>
+    <xs:element name="TextEdit" type="TextEdit" />
+    <xs:complexType name="Button">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Button.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Button.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Button.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Button.Text" type="xs:string" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Action" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Text" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Button" type="Button" />
+    <xs:complexType name="Link">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Link.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Link.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Link.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Link.Text" type="xs:string" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Action" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Text" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Link" type="Link" />
+    <xs:complexType name="Layout">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Layout.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Layout.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Layout.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Layout.LayoutUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Layout.Content" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="LayoutUrl" type="xs:string" />
+        <xs:attribute name="Content" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Layout" type="Layout" />
+    <xs:complexType name="DateTimePicker">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="DateTimePicker.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="DateTimePicker.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="DateTimePicker.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="DateTimePicker.DateTime" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="DateTimePicker.Mode" type="DateTimeMode" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="DateTime" type="xs:string" />
+        <xs:attribute name="Mode" type="DateTimeMode" />
+    </xs:complexType>
+    <xs:element name="DateTimePicker" type="DateTimePicker" />
+    <xs:complexType name="TimeInterval">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="TimeInterval.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TimeInterval.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TimeInterval.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TimeInterval.Interval" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TimeInterval.Mode" type="TimeSpan" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Interval" type="xs:string" />
+        <xs:attribute name="Mode" type="TimeSpan" />
+    </xs:complexType>
+    <xs:element name="TimeInterval" type="TimeInterval" />
+    <xs:complexType name="Image">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Image.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Image.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Image.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Image.Source" type="xs:string" />
+            <xs:group minOccurs="0" maxOccurs="1" ref="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Image.SourceType" type="SourceType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Image.Scale" type="xs:boolean" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Source" type="xs:string" />
+        <xs:attribute name="SourceType" type="SourceType" />
+        <xs:attribute name="Scale" type="xs:boolean" />
+    </xs:complexType>
+    <xs:element name="Image" type="Image" />
+    <xs:complexType name="Chart">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.Caption" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.Source" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.ChartType" type="ChartType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.Series" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Chart.Flat" type="xs:boolean" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Caption" type="xs:string" />
+        <xs:attribute name="Source" type="xs:string" />
+        <xs:attribute name="ChartType" type="ChartType" />
+        <xs:attribute name="Flat" type="xs:boolean" />
+    </xs:complexType>
+    <xs:element name="Chart" type="Chart" />
+    <xs:complexType name="ImageButton">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="ImageButton.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ImageButton.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ImageButton.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ImageButton.Icon" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ImageButton.Tooltip" type="xs:string" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Action" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Icon" type="xs:string" />
+        <xs:attribute name="Tooltip" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="ImageButton" type="ImageButton" />
+    <xs:complexType name="Checkbox">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Checkbox.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Checkbox.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Checkbox.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Checkbox.Checked" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Checkbox.Text" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Checkbox.Color" type="xs:string" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Action" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Checked" type="xs:string" />
+        <xs:attribute name="Text" type="xs:string" />
+        <xs:attribute name="Color" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Checkbox" type="Checkbox" />
+    <xs:complexType name="Combobox">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Combobox.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Combobox.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Combobox.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Combobox.Items" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Combobox.Caption" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Combobox.Selected" type="xs:string" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Action" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Items" type="xs:string" />
+        <xs:attribute name="Caption" type="xs:string" />
+        <xs:attribute name="Selected" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Combobox" type="Combobox" />
+    <xs:complexType name="InplaceTextEdit">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="InplaceTextEdit.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="InplaceTextEdit.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="InplaceTextEdit.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="InplaceTextEdit.Text" type="xs:string" />
+            <xs:group minOccurs="1" maxOccurs="1" ref="Action" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Text" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="InplaceTextEdit" type="InplaceTextEdit" />
+    <xs:complexType name="Separator">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Separator.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Separator.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Separator.OnHover" type="Popup" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Separator" type="Separator" />
+    <xs:complexType name="Html" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Html.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Html.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Html.OnHover" type="Popup" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Html" type="Html" />
+    <xs:complexType name="TabItem">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="TabItem.Title" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TabItem.Icon" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TabItem.LayoutUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TabItem.DataUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="TabItem.IsWebsocket" type="xs:boolean" />
+        </xs:choice>
+        <xs:attribute name="Title" type="xs:string" />
+        <xs:attribute name="Icon" type="xs:string" />
+        <xs:attribute name="LayoutUrl" type="xs:string" />
+        <xs:attribute name="DataUrl" type="xs:string" />
+        <xs:attribute name="IsWebsocket" type="xs:boolean" />
+    </xs:complexType>
+    <xs:element name="TabItem" type="TabItem" />
+    <xs:complexType name="Tabs">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Tabs.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Tabs.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Tabs.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="TabItem" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Tabs" type="Tabs" />
+    <xs:complexType name="RadioItem">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:group minOccurs="0" maxOccurs="1" ref="Element" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RadioItem.Caption" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RadioItem.Value" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Caption" type="xs:string" />
+        <xs:attribute name="Value" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="RadioItem" type="RadioItem" />
+    <xs:complexType name="Radiogroup">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="Radiogroup.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Radiogroup.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Radiogroup.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="RadioItem" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Radiogroup.VerticalOrder" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="Radiogroup.Value" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="VerticalOrder" type="xs:boolean" />
+        <xs:attribute name="Value" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="Radiogroup" type="Radiogroup" />
+    <xs:complexType name="PropertyGrid">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="PropertyGrid.Visible" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PropertyGrid.OnLoad" type="Action" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PropertyGrid.OnHover" type="Popup" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PropertyGrid.Collapsed" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PropertyGrid.Value" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="Visible" type="xs:string" />
+        <xs:attribute name="Collapsed" type="xs:boolean" />
+        <xs:attribute name="Value" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="PropertyGrid" type="PropertyGrid" />
+</xs:schema>

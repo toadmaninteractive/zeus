@@ -1,0 +1,41 @@
+<div class="top-wrapper">
+    <img ng-src="images/logo/logo.png" class="logo" alt="" />
+    <ul class="top-block version">
+        <li>v.{{ version }}</li>
+    </ul>
+    <ul class="top-block indicator">
+        <li><img src="images/loaders/progress-loader.gif" reactive-load-indicator data-hook-event="page:change" /></li>
+    </ul>
+    <ul class="topnav">
+        <li class="topuser">
+            <a title="" data-toggle="dropdown" class="dropdown-toggle">
+                <img ng-src="images/other/user.png" alt="" />
+                <span>{{ username }}@{{ realm }}</span>
+                <i class="caret"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <!--
+                <li><a href="javascript:" title=""><span class="user-profile"></span>My profile</a></li>
+                <li><a href="javascript:" title=""><span class="user-stats"></span>Statistics <strong>2</strong></a></li>
+                <li><a href="javascript:" title=""><span class="user-settings"></span>Switch user</a></li>
+                -->
+                <li><a href="javascript:" title="" ng-controller="LoginCtrl" ng-click="logout()"><span class="user-logout"></span>Logout</a></li>
+            </ul>
+        </li>
+        <!--
+        <li><a href="javascript:" title=""><b class="settings"></b></a></li>
+        <li><a href="javascript:" title=""><b class="mail"></b></a></li>
+        -->
+        <li class="search" ng-show="instance.active.id" ng-controller="SearchCtrl">
+            <a href="javascript:" title="" ng-click="instance.active.id && utils.broadcast('toggle:search')"><b class="search"></b></a>
+            <form class="top-search" action="javascript:" fade-on="toggle:search" ng-show="instance.active.id">
+                <input type="text" placeholder="Search..." ng-model="opts.input" ng-keyup="handleInput($event)" />
+                <input type="submit" value="" ng-click="search()" />
+            </form>
+        </li>
+        <!--
+        <li class="sidebar-button"><a href="javascript:" title=""><b class="responsive-nav"></b></a></li>
+        -->
+        <li><a href="javascript:" title="" ng-controller="LoginCtrl" ng-click="logout()"><b class="logout"></b></a></li>
+    </ul>
+</div>

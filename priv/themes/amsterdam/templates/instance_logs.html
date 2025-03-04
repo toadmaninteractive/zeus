@@ -1,0 +1,15 @@
+<div class="mix-query">
+    <label>
+        From:
+        <input type="text" ng-model="actionLogs.query.date_from" placeholder="YYYY-MM-DD" datepicker-popup="yyyy-MM-dd" show-weeks="false" starting-day="1" />
+    </label>
+    <label>
+        To:
+        <input type="text" ng-model="actionLogs.query.date_to" placeholder="YYYY-MM-DD" datepicker-popup="yyyy-MM-dd" show-weeks="false" starting-day="1" />
+    </label>
+    <button class="btn btn-info" ng-click="actionLogs.request()">Show logs</button>
+</div>
+<div class="mix-heading" ng-show="!!actionLogs.result">
+    <h5><small>Search results:</small></h5>
+</div>
+<div class="mix-panel" ng-bind-html="actionLogs.formatResult()" ng-show="!!actionLogs.result"></div>

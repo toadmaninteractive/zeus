@@ -1,0 +1,8 @@
+{application, zeus, [
+    {description, "Zeus Admin Panel"},
+    {vsn, "1.3.0"},
+    {modules, []},
+    {registered, []},
+    {applications, [sasl, ssl, mnesia, cowboy, cerberus, ibrowse, gun]},
+    {mod, {zeus_app, []}}
+]}.

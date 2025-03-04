@@ -1,0 +1,10 @@
+<div class="error-layout clearfix">
+    <div class="error-block error-glyph">
+        <img class="error-glyph" ng-src="images/other/dont-panic-thumb.png" title="" />
+    </div>
+    <div class="error-block">
+        <p>Dear <b>{{ username }}</b>, you have requested an invalid URL:</p>
+        <p><code>{{ $location.absUrl() }}</code></p>
+        <p>Don't panic, you can always return to <a href="/admin/dashboard">dashboard</a>.</p>
+    </div>
+</div>
